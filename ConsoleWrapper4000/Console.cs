@@ -145,7 +145,10 @@ public class ConsoleProgressBar : IDisposable
                     Dispose();
             }
 
-            //TimeSpan timeRemaining = TimeSpan.FromTicks(DateTime.Now.Subtract(startTime).Ticks * (total - (progress + 1)) / (progress + 1));
+            var timeTaken = DateTime.Now.Subtract(startTime).Ticks;
+            var timeRemaining = TimeSpan.FromTicks(
+                (timeTaken / (progress + 1)) * (total - progress + 1)
+            );
 
             OriginalConsole.CursorLeft = 1;
             float onechunk = 30.0f / total;
@@ -171,9 +174,8 @@ public class ConsoleProgressBar : IDisposable
             OriginalConsole.CursorLeft = 35;
             OriginalConsole.BackgroundColor = ConsoleColor.Black;
 
-            OriginalConsole.WriteLine($"{percentage}%");
-            //+ $"  ({timeRemaining.Hours.ToString("00")}:{timeRemaining.Minutes.ToString("00")}:{timeRemaining.Seconds.ToString("00")})");
-
+            OriginalConsole.WriteLine($"{percentage}%"
+            + $" ({timeRemaining.Hours.ToString("00")}:{timeRemaining.Minutes.ToString("00")}:{timeRemaining.Seconds.ToString("00")})");
 
             OriginalConsole.SetCursorPosition(0, currentLocation);
             OriginalConsole.CursorVisible = true;
