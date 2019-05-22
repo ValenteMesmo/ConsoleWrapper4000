@@ -51,7 +51,11 @@ public static class Console
         var value = OriginalConsole.ReadLine();
 
         if (string.IsNullOrWhiteSpace(value))
+        {
+            EraseLine();
+            WriteLine(defaultValue);
             return defaultValue;
+        }
 
         return value;
     }
@@ -102,6 +106,7 @@ public class ConsoleProgressBar : IDisposable
                 Render();
                 Task.Delay(500).Wait();
             }
+            Render();
         });
 
     }
@@ -136,7 +141,8 @@ public class ConsoleProgressBar : IDisposable
             {
                 previousProgress = progress;
                 percentage = 100;
-                Dispose();
+                if (!disposed)
+                    Dispose();
             }
 
             //TimeSpan timeRemaining = TimeSpan.FromTicks(DateTime.Now.Subtract(startTime).Ticks * (total - (progress + 1)) / (progress + 1));
