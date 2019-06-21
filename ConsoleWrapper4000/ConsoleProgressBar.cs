@@ -56,6 +56,9 @@ public class ConsoleProgressBar : IDisposable
             var currentLocation = OriginalConsole.CursorTop;
             OriginalConsole.SetCursorPosition(0, location);
 
+            if (progress > total)
+                progress = total;
+
             previousProgress = (int)Lerp(previousProgress, progress, 0.5f);
             percentage = (int)((previousProgress * 100) / total);
 

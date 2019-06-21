@@ -7,6 +7,10 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
             using (var progress = Console.ProgressBar(10))
+                {
+                progress.SetProgress(100);
+                }
+            using (var progress = Console.ProgressBar(10))
 
                 for (int i = 0; i < 10; i++)
                 {
